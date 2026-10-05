@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>S Jehovou každý den</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="S Jehovou">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#F2F4EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141A16" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4EE; --paper:#FFFFFF; --ink:#1E2B24; --soft:#5B6B60; --line:#D7DFD3;
+  --leaf:#3F6B4E; --leaf-wash:#E3ECDF; --gold:#B8892A; --gold-wash:#F6EDD6;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#141A16; --paper:#1C241F; --ink:#E6ECE5; --soft:#9AAA9F; --line:#2F3B33;
+    --leaf:#8DBF9B; --leaf-wash:#22312A; --gold:#E0B85C; --gold-wash:#332B19;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141A16; --paper:#1C241F; --ink:#E6ECE5; --soft:#9AAA9F; --line:#2F3B33;
+  --leaf:#8DBF9B; --leaf-wash:#22312A; --gold:#E0B85C; --gold-wash:#332B19;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5;padding-bottom:84px}
+main{max-width:600px;margin:0 auto;padding:22px 18px 24px}
+h1{font-family:Literata,Georgia,serif;font-weight:600;font-size:1.8rem;line-height:1.15;margin:4px 0 4px}
+h2{font-family:Literata,Georgia,serif;font-weight:600;font-size:1.2rem;margin:0}
+p{margin:0 0 10px}
+.soft{color:var(--soft)}
+.small{font-size:.9rem}
+textarea,input[type=text],input[type=password],select{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{resize:vertical;min-height:64px;font-family:Literata,Georgia,serif;line-height:1.55}
+textarea:focus,input:focus,select:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--leaf);outline-offset:1px}
+button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 15px}
+.primary{background:var(--leaf);color:var(--bg);border-color:var(--leaf);font-weight:600}
+.done-btn[aria-pressed="true"]{background:var(--leaf-wash);border-color:var(--leaf);color:var(--leaf);font-weight:600}
+.link{border:0;background:none;padding:4px 0;color:var(--leaf);font-weight:500}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.energy{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 6px}
+.energy button{border-radius:12px;padding:10px 6px;font-size:.9rem;line-height:1.3}
+.energy button b{display:block;font-size:1.25rem;margin-bottom:2px}
+.energy button[aria-pressed="true"]{background:var(--leaf-wash);border-color:var(--leaf);color:var(--leaf);font-weight:600}
+.energy-note{font-size:.9rem;color:var(--soft);min-height:1.4em;margin-bottom:14px}
+
+.step{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;margin-bottom:14px}
+.step.extra{border-style:dashed}
+.step-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.num{width:30px;height:30px;border-radius:50%;background:var(--leaf-wash);color:var(--leaf);display:grid;place-items:center;font-weight:600;flex:none}
+.step.complete .num{background:var(--leaf);color:var(--bg)}
+.q{font-family:Literata,Georgia,serif;font-size:1.06rem;margin:6px 0 8px}
+.qrow{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.verse{font-family:Literata,Georgia,serif;font-style:italic;color:var(--soft);font-size:.95rem;margin-bottom:10px}
+.reading{font-family:Literata,Georgia,serif;font-size:1.3rem;font-weight:600;margin:2px 0 4px}
+.pr-chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.pr-chips button{font-size:.88rem;padding:6px 12px}
+.pr-chips button[aria-pressed="true"]{background:var(--gold-wash);border-color:var(--gold);color:var(--ink)}
+.saved{font-size:.82rem;color:var(--soft);text-align:center;margin:8px 0 0;min-height:1.3em}
+.after{border-top:1px dashed var(--line);margin-top:12px;padding-top:12px}
+
+/* prayers */
+.item{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.item.answered{border-color:var(--gold);background:linear-gradient(var(--gold-wash),var(--paper) 70%)}
+.item h3{margin:0 0 2px;font-family:Literata,Georgia,serif;font-weight:600;font-size:1.08rem}
+.notes{list-style:none;padding:0;margin:8px 0}
+.notes li{font-size:.93rem;padding:6px 0;border-top:1px dashed var(--line)}
+.notes b{font-weight:500;color:var(--soft);font-size:.8rem;display:block}
+details summary{cursor:pointer;color:var(--leaf);font-weight:500;margin-top:8px}
+.chk{display:flex;gap:8px;align-items:center;font-size:.93rem;margin-top:8px}
+.chk input{width:18px;height:18px;accent-color:var(--gold)}
+.sec{font-family:Literata,Georgia,serif;font-weight:600;font-size:1.2rem;margin:26px 0 10px}
+
+/* journal */
+.month{font-family:Literata,Georgia,serif;font-size:1.05rem;margin:0 0 14px}
+.entry{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.entry summary{list-style:none;color:var(--ink);font-weight:400;margin:0}
+.entry summary::-webkit-details-marker{display:none}
+.entry .d{font-size:.85rem;color:var(--soft)}
+.entry .t{font-family:Literata,Georgia,serif;margin-top:2px}
+.entry dt{font-size:.85rem;color:var(--leaf);font-weight:600;margin-top:10px}
+.entry dd{margin:2px 0 0;white-space:pre-wrap;font-family:Literata,Georgia,serif}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:var(--leaf)}
+.empty{color:var(--soft);text-align:center;padding:24px 10px}
+.store-note{font-size:.8rem;color:var(--soft);text-align:center;margin-top:28px}
+
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;max-width:200px;border:0;border-radius:0;background:none;padding:13px 4px 15px;color:var(--soft)}
+nav button[aria-current="page"]{color:var(--leaf);font-weight:600;box-shadow:inset 0 3px 0 var(--leaf)}
+[hidden]{display:none!important}
+
+.fq{margin-top:14px}
+.fq label{display:block;font-family:Literata,Georgia,serif;font-size:1.02rem;margin-bottom:2px}
+.fq .h{font-size:.85rem;color:var(--soft);margin-bottom:6px}
+.more summary{font-size:.92rem;margin-top:14px}
+.follow{background:var(--gold-wash);border:1px solid var(--gold);border-radius:16px;padding:16px 18px;margin-bottom:14px}
+.follow p.t{font-family:Literata,Georgia,serif;font-size:1.05rem;margin:4px 0 10px}
+.recap{background:var(--bg);border-radius:12px;padding:12px 14px;margin:10px 0}
+.recap ul{padding-left:18px;margin:6px 0 0}
+.recap li{margin-bottom:6px;font-family:Literata,Georgia,serif}
+.sync{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:12px}
+.sync>summary{margin:0}
+details *{box-sizing:border-box}
+.sync ol{padding-left:20px;margin:8px 0 0}
+.sync ol li{margin-bottom:4px}
+.sync a{color:var(--leaf)}
+.tag{font-size:.78rem;color:var(--leaf);font-weight:600;font-family:Figtree,system-ui,sans-serif}
+</style>
+</head>
+<body>
+<main>
+
+<!-- ============ DNES ============ -->
+<section id="tab-today">
+  <p class="soft small" id="dateLine" style="margin:0"></p>
+  <h1>Jak se dnes cítíš?</h1>
+  <div class="energy" role="group" aria-label="Kolik máš dnes sil">
+    <button data-energy="tired"><b>🌙</b>Vyčerpaná</button>
+    <button data-energy="normal"><b>🌿</b>Normálně</button>
+    <button data-energy="extra"><b>☀️</b>Mám sílu navíc</button>
+  </div>
+  <p class="energy-note" id="energyNote"></p>
+
+  <div class="follow" id="followCard" hidden>
+    <span class="soft small" id="followWhen"></span>
+    <p class="t" id="followText"></p>
+    <div class="row"><button class="primary" data-follow="yes">Podařilo se</button><button data-follow="partly">Částečně</button><button data-follow="no">Ještě ne</button></div>
+  </div>
+
+  <!-- 1 MODLITBA -->
+  <div class="step" id="stPray">
+    <div class="step-head"><span class="num">1</span><h2>Příprava na modlitbu</h2></div>
+    <p class="verse" id="prayVerse"></p>
+    <div id="prayFields"></div>
+    <div id="prChipsWrap">
+      <p class="fq" style="margin-bottom:0"><label>Dlouhodobé prosby, které dnes zmíním</label></p>
+      <div class="pr-chips" id="prChips"></div>
+    </div>
+    <div class="after row">
+      <button class="done-btn" id="prayedBtn">Pomodlila jsem se</button>
+    </div>
+  </div>
+
+  <!-- 2 BIBLE -->
+  <div class="step" id="stBible">
+    <div class="step-head"><span class="num">2</span><h2>Bible</h2></div>
+    <p class="soft small" style="margin:0" id="readLbl">Dnes na řadě</p>
+    <p class="reading" id="readingNow"></p>
+    <p class="soft small" id="readingHint"></p>
+    <div class="row">
+      <button class="primary" id="readBtn">Přečteno</button>
+      <button class="link small" id="changeBook">Číst jinde</button>
+    </div>
+    <div id="bookPick" hidden style="margin-top:10px">
+      <select id="bookSel"></select>
+      <p class="soft small" style="margin-top:6px">Plán pak pokračuje první nepřečtenou kapitolou vybrané knihy.</p>
+    </div>
+    <div class="after" id="bibleFields"></div>
+  </div>
+
+  <!-- 3 TÉMA DNE -->
+  <div class="step" id="stDay">
+    <div class="step-head"><span class="num">3</span><h2 id="dayTitle"></h2></div>
+    <p class="soft small" id="dayHint" style="margin:0"></p>
+    <div id="dayBody"></div>
+  </div>
+
+  <!-- 4 VOLNÉ STUDIUM NAVÍC -->
+  <div class="step extra" id="stExtra">
+    <div class="step-head"><span class="num">4</span><h2>Volné studium navíc</h2></div>
+    <p class="soft small" style="margin:0">Biblická postava, publikace nebo článek z jw.org.</p>
+    <div id="extraBody"></div>
+  </div>
+
+  <p class="saved" id="savedNote"></p>
+</section>
+
+<!-- ============ MODLITBY ============ -->
+<section id="tab-prayers" hidden>
+  <h1>Modlitební deník</h1>
+  <p class="soft">Co jsi Jehovovi svěřila a jak odpověděl. Odpověď může být ano, ne, počkej, nebo síla to unést.</p>
+  <div class="item">
+    <input type="text" id="newPr" placeholder="O co prosím…">
+    <div class="row" style="margin-top:8px"><button class="primary" id="addPr">Přidat prosbu</button></div>
+  </div>
+  <div id="prOpen"></div>
+  <p class="sec">Jak Jehova odpověděl</p>
+  <div id="prAnswered"></div>
+</section>
+
+<!-- ============ DENÍK ============ -->
+<section id="tab-journal" hidden>
+  <h1>Deník</h1>
+  <p class="month" id="monthLine"></p>
+  <p class="soft small" style="margin:0" id="bibleProg"></p>
+  <div class="bar"><i id="bibleBar"></i></div>
+  <p class="sec">Záznamy</p>
+  <input type="text" id="search" placeholder="Hledat…">
+  <div id="entries" style="margin-top:12px"></div>
+</section>
+
+<p class="store-note" id="storeNote">Načítání…</p>
+<details class="sync" id="syncBox">
+  <summary>Synchronizace a záloha</summary>
+  <p class="soft small" style="margin-top:8px">Zápisky se ukládají do tvého soukromého repozitáře na GitHubu. Na každém zařízení stačí jednou vyplnit repozitář a token.</p>
+  <div class="fq"><label for="syRepo">Repozitář s daty</label><input type="text" id="syRepo" placeholder="uzivatel/s-jehovou-data" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+  <div class="fq"><label for="syToken">Přístupový token</label><input type="password" id="syToken" autocomplete="off" placeholder="github_pat_…"></div>
+  <div class="row" style="margin-top:10px"><button class="primary" id="sySave">Uložit a synchronizovat</button><button id="syNow">Synchronizovat teď</button><button id="syOff">Odpojit toto zařízení</button></div>
+  <details class="more"><summary>Jak získat token</summary>
+    <ol class="soft small">
+      <li>Otevři <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Developer settings → Fine-grained tokens → Generate new token</a>.</li>
+      <li>U „Repository access“ zvol „Only select repositories“ a vyber repozitář s daty.</li>
+      <li>V „Permissions → Repository permissions“ nastav „Contents“ na „Read and write“.</li>
+      <li>Token vygeneruj, zkopíruj a vlož sem. Ukládá se jen v tomto zařízení.</li>
+    </ol>
+  </details>
+  <p class="fq" style="margin-bottom:6px"><label>Záloha do souboru</label></p>
+  <div class="row"><button id="exBtn">Stáhnout zálohu</button><button id="imBtn">Načíst zálohu</button><input type="file" id="imFile" accept="application/json,.json" hidden></div>
+</details>
+</main>
+
+<nav aria-label="Sekce">
+  <button data-tab="today" aria-current="page">Dnes</button>
+  <button data-tab="prayers">Modlitby</button>
+  <button data-tab="journal">Deník</button>
+</nav>
+
+<script>
+/* ===== DATA ===== */
+const BOOKS=[["1. Mojžíšova",50],["2. Mojžíšova",40],["3. Mojžíšova",27],["4. Mojžíšova",36],["5. Mojžíšova",34],["Jozue",24],["Soudci",21],["Rut",4],["1. Samuelova",31],["2. Samuelova",24],["1. Královská",22],["2. Královská",25],["1. Paralipomenon",29],["2. Paralipomenon",36],["Ezra",10],["Nehemjáš",13],["Ester",10],["Job",42],["Žalmy",150],["Přísloví",31],["Kazatel",12],["Píseň písní",8],["Izajáš",66],["Jeremjáš",52],["Nářky",5],["Ezekiel",48],["Daniel",12],["Ozeáš",14],["Joel",3],["Amos",9],["Obadjáš",1],["Jonáš",4],["Micheáš",7],["Nahum",3],["Habakuk",3],["Sofonjáš",3],["Aggeus",2],["Zecharjáš",14],["Malachiáš",4],["Matouš",28],["Marek",16],["Lukáš",24],["Jan",21],["Skutky",28],["Římanům",16],["1. Korinťanům",16],["2. Korinťanům",13],["Galaťanům",6],["Efezanům",6],["Filipanům",4],["Kolosanům",4],["1. Tesaloničanům",5],["2. Tesaloničanům",3],["1. Timotejovi",6],["2. Timotejovi",4],["Titovi",3],["Filemonovi",1],["Hebrejcům",13],["Jakub",5],["1. Petra",5],["2. Petra",3],["1. Jana",5],["2. Jana",1],["3. Jana",1],["Juda",1],["Zjevení",22]];
+const TOTAL_CH=BOOKS.reduce((s,b)=>s+b[1],0);
+const VERSES=[
+  ["Můžu Jehovovi říct všechno, co potřebuju, a jeho pokoj mi ochrání srdce.","Filipanům 4:6, 7"],
+  ["Své starosti můžu hodit na něj, protože mu na mně záleží.","1. Petra 5:7"],
+  ["Můžu před ním vylít své srdce.","Žalm 62:8"],
+  ["Jehova je blízko všem, kdo k němu volají upřímně.","Žalm 145:18"],
+  ["Unaveným dává sílu a tomu, kdo nemá energii, dává moc.","Izajáš 40:29"],
+  ["K jeho trůnu můžu přistupovat s volností řeči.","Hebrejcům 4:16"],
+  ["Duch se za nás přimlouvá, i když nevíme, jak to vyjádřit.","Římanům 8:26"]
+];
+/* [klíč, otázka, nápověda] – první položky se ukazují i ve vyčerpaný den */
+const PRAY_F=[
+  ["p_feel","Jak se teď opravdu cítím?","Řekni Jehovovi pravdu, i když je to „jsem unavená a nevím, co říct“."],
+  ["p_thanks","Za co konkrétně děkuju?","Ne „za všechno“, ale za jednu nebo dvě věci z dneška. Zahrň i to, na co Jehova odpověděl."],
+  ["p_burden","Co mě tíží nebo co chci urovnat?","Chyba, strach, starost. Pojmenuj to přímo."],
+  ["p_ask","O co konkrétně prosím pro sebe?","Sílu, moudrost, pomoc v konkrétní situaci, svatý duch."],
+  ["p_others","Za koho se dnes pomodlím?","Rodina, někdo ze sboru, nemocní, pronásledovaní bratři, lidé ze služby."]
+];
+const PRAY_TIRED=2;
+const BIBLE_F=[
+  ["b_apply","Jak to konkrétně uplatním tento týden?","Malý krok. Zítra se tě zeptám, jak se ti dařilo."],
+  ["b_jeh","Co mě to učí o Jehovovi?","Jeho vlastnosti, pocity, jak jedná s lidmi."],
+  ["b_theme","Jak to souvisí s hlavním poselstvím Bible?","Jehovovo jméno, jeho Království, záchrana skrze Ježíše."],
+  ["b_help","Jak tím můžu pomoct nebo povzbudit druhé?","Ve sboru, v rodině, ve službě."]
+];
+const BIBLE_TIRED=1;
+const FREE={title:"Volné studium",hint:"Biblická postava, publikace nebo článek z jw.org. Co tě zrovna láká.",
+  fields:[["s_what","Co čtu","Např. Napodobujte jejich víru: Rut",true],["s_note","Co mě zaujalo nebo povzbudilo?"],["s_apply","Jak to můžu uplatnit?"]]};
+const DAYS={
+  1:FREE,2:FREE,4:{...FREE,hint:"Dnes je shromáždění, tak klidně jen krátce. Postava, publikace nebo článek z jw.org."},
+  3:{title:"Příprava na čtvrteční shromáždění",hint:"Otevři si pracovní sešit Život a služba.",
+     fields:[["m_points","Co mě zaujalo v programu?"],["m_comment","Komentář, který chci říct v Hledání duchovních pokladů"],["m_task","Můj úkol a co si k němu připravím (pokud mám)"]]},
+  5:{title:"Příprava na sobotní službu",hint:"Inspiruj se návrhy rozhovorů v pracovním sešitě.",
+     fields:[["s_people","Na koho myslím a za koho se pomodlím?"],["s_intro","Jak začnu rozhovor a jaký verš použiju?"],["s_obj","Na jakou námitku chci umět odpovědět?"]]},
+  6:{title:"Příprava na nedělní Strážnou věž",hint:"U každého odstavce přečti otázku, pak odstavec, a podtrhni klíčová slova odpovědi.",
+     fields:[["w_main","Hlavní myšlenka článku"],["w_comment","Komentář, který chci říct vlastními slovy"],["w_apply","Jak to uplatním?"]]},
+  0:{title:"Ohlédnutí za týdnem",hint:"Podívej se, co sis tento týden předsevzala a jak Jehova odpovídal.",review:true,
+     fields:[["r_did","Co se mi tento týden podařilo uplatnit?"],["r_thanks","Za co Jehovovi z tohoto týdne děkuju?"],["r_next","Na co se zaměřím příští týden?"]]}
+};
+const ENERGY_NOTE={
+  tired:"Dnes jen modlitba a pár veršů, s jednou nebo dvěma otázkami. To úplně stačí. Jehova vidí, že jsi přišla.",
+  normal:"Modlitba, Bible a téma dne. Asi 20 až 30 minut.",
+  extra:"Všechno, a k tomu volné studium navíc."
+};
+const FOLLOW_TXT={yes:"Podařilo se",partly:"Částečně",no:"Ještě ne"};
+
+/* ===== HELPERS ===== */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const dayKey=(d=new Date())=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const fromKey=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d)};
+const fmtDay=k=>fromKey(k).toLocaleDateString("cs-CZ",{weekday:"long",day:"numeric",month:"long"});
+const fmtTs=ts=>new Date(ts).toLocaleDateString("cs-CZ",{day:"numeric",month:"long",year:"numeric"});
+const plural=(n,a,b,c)=>n===1?a:(n>=2&&n<=4?b:c);
+const doy=()=>{const n=new Date();return Math.floor((n-new Date(n.getFullYear(),0,0))/864e5)};
+const TODAY=dayKey();
+function weekStartKey(){const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));return dayKey(d)}
+
+/* ===== STATE ===== */
+let state={read:{},prayers:[],bookPref:null,del:{},u:0};
+let days={};
+const LS_MAIN="sjk-main-v1",LS_DAYS="sjk-days-v1",LS_SYNC="sjk-sync-v1",LS_SHA="sjk-sha-v1",LS_DIRTY="sjk-dirty-v1";
+function lsGet(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function norm(s){const o=Object.assign({read:{},prayers:[],bookPref:null,del:{},u:0},s||{});if(!o.del)o.del={};if(!o.read)o.read={};o.prayers=(o.prayers||[]).map(p=>p.notes?p:Object.assign({},p,{notes:[]}));return o}
+function blankDay(){return {date:TODAY,energy:null,f:{},prayed:false,prPick:[],readCh:[]}}
+function fixDay(d){return Object.assign(blankDay(),d,{f:d.f||{},prPick:d.prPick||[],readCh:d.readCh||[]})}
+let today=blankDay();
+
+/* ===== UKLÁDÁNÍ: vždy hned do zařízení, potom do soukromého repozitáře na GitHubu ===== */
+let cfg=lsGet(LS_SYNC,null),shas=lsGet(LS_SHA,{}),dirty=new Set(lsGet(LS_DIRTY,[]));
+const monthPath=k=>"days/"+k.slice(0,7)+".json";
+function markDirty(p){dirty.add(p);lsSet(LS_DIRTY,[...dirty]);schedulePush()}
+function markAllDirty(){dirty.add("main.json");Object.keys(days).forEach(k=>dirty.add(monthPath(k)));lsSet(LS_DIRTY,[...dirty])}
+function writeMain(){state.u=Date.now();lsSet(LS_MAIN,state);markDirty("main.json")}
+let dayTimer=null;
+function writeDay(){dayTimer=null;days[TODAY]=today;lsSet(LS_DAYS,days);markDirty(monthPath(TODAY));$("savedNote").textContent="Uloženo"}
+function saveDay(soon){today.u=Date.now();clearTimeout(dayTimer);$("savedNote").textContent="Ukládám…";dayTimer=setTimeout(writeDay,soon?50:1200)}
+function saveOtherDay(k){if(k===TODAY){saveDay(true);return}days[k].u=Date.now();lsSet(LS_DAYS,days);markDirty(monthPath(k))}
+
+/* jednotný tvar dat, aby se stejný obsah na všech zařízeních zapisoval stejně */
+function canonMain(s){const o={read:{},prayers:s.prayers,bookPref:s.bookPref,del:{},u:s.u||0};
+  Object.keys(s.read).map(Number).sort((x,y)=>x-y).forEach(k=>{o.read[k]=s.read[k]});
+  Object.keys(s.del).sort().forEach(k=>{o.del[k]=s.del[k]});return JSON.stringify(o)}
+function monthJSON(path){const pre=path.slice(5,12),o={};Object.keys(days).filter(k=>k.startsWith(pre)).sort().forEach(k=>{o[k]=days[k]});return JSON.stringify(o)}
+/* sloučení: přečtené kapitoly se sčítají, u proseb a dnů vyhrává novější úprava */
+function mergeMain(r){const before=canonMain(state),A=state,B=norm(r),o=norm({});
+  o.u=Math.max(A.u||0,B.u||0);o.bookPref=(A.u||0)>=(B.u||0)?A.bookPref:B.bookPref;
+  new Set([...Object.keys(A.read),...Object.keys(B.read)]).forEach(k=>{o.read[k]=[...new Set([...(A.read[k]||[]),...(B.read[k]||[])])].sort((x,y)=>x-y)});
+  [B.del,A.del].forEach(d=>{for(const k in d)o.del[k]=Math.max(d[k],o.del[k]||0)});
+  const m=new Map();[...B.prayers,...A.prayers].forEach(p=>{const q=m.get(p.id);if(!q||(p.u||0)>=(q.u||0))m.set(p.id,p)});
+  o.prayers=[...m.values()].filter(p=>!o.del[p.id]).sort((x,y)=>(y.created-x.created)||(x.id<y.id?-1:1));
+  state=o;return {changed:canonMain(state)!==before,push:canonMain(state)!==canonMain(B)}}
+function mergeMonth(path,r){const pre=path.slice(5,12);let changed=false,push=false;
+  new Set([...Object.keys(r||{}),...Object.keys(days).filter(k=>k.startsWith(pre))]).forEach(k=>{const A=days[k],B=r&&r[k];
+    if(!A){days[k]=B;changed=true}else if(!B)push=true;else if((B.u||0)>(A.u||0)){days[k]=B;changed=true}else if((A.u||0)>(B.u||0))push=true});
+  return {changed,push}}
+
+const b64e=s=>{const b=new TextEncoder().encode(s);let o="";for(let i=0;i<b.length;i+=0x8000)o+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(o)};
+const b64d=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,"")),c=>c.charCodeAt(0)));
+class SyncErr extends Error{constructor(status){super("sync "+status);this.status=status}}
+function gh(method,path,body){return fetch("https://api.github.com/repos/"+cfg.repo+"/contents/"+path,{method,cache:"no-store",headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},body:body?JSON.stringify(body):undefined})}
+let remoteChanged=false,lastPull=0,pushTimer=null,chain=Promise.resolve();
+async function pullPath(path){
+  const r=await gh("GET",path);if(r.status===404){delete shas[path];return}if(!r.ok)throw new SyncErr(r.status);
+  const j=await r.json();let data;try{data=JSON.parse(b64d(j.content||""))}catch(e){throw new SyncErr("data")}
+  shas[path]=j.sha;let res;
+  if(path==="main.json"){res=mergeMain(data);lsSet(LS_MAIN,state)}else{res=mergeMonth(path,data);lsSet(LS_DAYS,days)}
+  if(res.changed)remoteChanged=true;if(res.push)dirty.add(path);else dirty.delete(path);lsSet(LS_DIRTY,[...dirty])}
+async function pull(){
+  const r=await gh("GET","");let list=[];
+  if(r.status===404){const j=await r.json().catch(()=>({}));if(!/empty/i.test(j.message||""))throw new SyncErr(404)}
+  else if(!r.ok)throw new SyncErr(r.status);else list=await r.json();
+  const main=list.find(x=>x.name==="main.json"),dd=list.find(x=>x.name==="days");
+  if(main&&main.sha!==shas["main.json"])await pullPath("main.json");
+  if(dd&&dd.sha!==shas["days/"]){const lr=await gh("GET","days");if(!lr.ok)throw new SyncErr(lr.status);
+    for(const f of await lr.json())if(/^\d{4}-\d{2}\.json$/.test(f.name)&&f.sha!==shas["days/"+f.name])await pullPath("days/"+f.name);
+    shas["days/"]=dd.sha}
+  lsSet(LS_SHA,shas)}
+async function pushPath(path){
+  for(let i=0;i<3;i++){
+    const body={message:"sync "+path,content:b64e(path==="main.json"?canonMain(state):monthJSON(path))};if(shas[path])body.sha=shas[path];
+    const r=await gh("PUT",path,body);
+    if(r.ok){shas[path]=(await r.json()).content.sha;lsSet(LS_SHA,shas);return}
+    if(r.status===409||r.status===422){await pullPath(path);continue}
+    throw new SyncErr(r.status)}
+  throw new SyncErr(409)}
+function setStatus(s){$("storeNote").textContent=s}
+function errText(e){
+  if(!(e instanceof SyncErr))return "Bez připojení. Změny jsou uložené v zařízení a odešlou se později.";
+  return ({401:"Token neplatí nebo vypršel. Vlož nový v nastavení synchronizace.",403:"Token nemá oprávnění zapisovat do repozitáře (nebo GitHub dočasně omezil počet požadavků).",404:"Repozitář nenalezen, nebo k němu token nemá přístup.",data:"Data v repozitáři se nepodařilo přečíst.",409:"Synchronizace se nepovedla, zkusím to znovu později."})[e.status]||"Synchronizace selhala (chyba "+e.status+"). Změny zůstávají uložené v zařízení."}
+function applyRemote(){
+  const d=days[TODAY];if(d&&d!==today){if((d.u||0)>(today.u||0))today=fixDay(d);days[TODAY]=today}
+  const ae=document.activeElement,typing=ae&&/TEXTAREA|INPUT|SELECT/.test(ae.tagName)&&ae.closest("#tab-today,#tab-prayers");
+  if(typing)renderJournal();else renderAll()}
+function sync(forcePull){
+  if(!cfg)return Promise.resolve();
+  return chain=chain.then(async()=>{
+    try{setStatus("Synchronizuji…");
+      if(forcePull||Date.now()-lastPull>30000){await pull();lastPull=Date.now()}
+      for(const p of [...dirty]){await pushPath(p);dirty.delete(p);lsSet(LS_DIRTY,[...dirty])}
+      if(remoteChanged){remoteChanged=false;applyRemote()}
+      setStatus("Synchronizováno v "+new Date().toLocaleTimeString("cs-CZ",{hour:"2-digit",minute:"2-digit"})+". Data jsou v tvém soukromém repozitáři.")
+    }catch(e){if(remoteChanged){remoteChanged=false;applyRemote()}setStatus(errText(e))}})}
+function schedulePush(){if(!cfg)return;clearTimeout(pushTimer);pushTimer=setTimeout(()=>sync(false),2500)}
+function renderSync(){$("syRepo").value=cfg?cfg.repo:"";$("syToken").value="";$("syToken").placeholder=cfg?"uložen v tomto zařízení":"github_pat_…";$("syNow").hidden=$("syOff").hidden=!cfg}
+$("sySave").onclick=()=>{
+  const repo=$("syRepo").value.trim().replace(/^https?:\/\/github\.com\//,"").replace(/\.git$/,"").replace(/\/$/,""),tok=$("syToken").value.trim()||(cfg&&cfg.token)||"";
+  if(!/^[\w.-]+\/[\w.-]+$/.test(repo)){setStatus("Repozitář zadej ve tvaru uzivatel/nazev.");$("syRepo").focus();return}
+  if(!tok){setStatus("Vlož přístupový token.");$("syToken").focus();return}
+  cfg={repo,token:tok};lsSet(LS_SYNC,cfg);shas={};lsSet(LS_SHA,shas);markAllDirty();renderSync();sync(true)};
+$("syNow").onclick=()=>sync(true);
+$("syOff").onclick=()=>{if(!confirm("Odpojit toto zařízení? Zápisky v něm zůstanou, jen se přestanou synchronizovat."))return;cfg=null;try{localStorage.removeItem(LS_SYNC);localStorage.removeItem(LS_SHA)}catch(e){}shas={};renderSync();setStatus("Ukládá se jen v tomto zařízení.")};
+$("exBtn").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({app:"s-jehovou",exported:new Date().toISOString(),state,days},null,1)],{type:"application/json"}));a.download="s-jehovou-zaloha-"+TODAY+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)};
+$("imBtn").onclick=()=>$("imFile").click();
+$("imFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;
+  try{const o=JSON.parse(await f.text());if(!o||typeof o!=="object"||(!o.state&&!o.days))throw 0;
+    if(o.state)mergeMain(o.state);const by={};Object.keys(o.days||{}).forEach(k=>{if(/^\d{4}-\d{2}-\d{2}$/.test(k))(by[monthPath(k)]=by[monthPath(k)]||{})[k]=o.days[k]});
+    Object.keys(by).forEach(p=>mergeMonth(p,by[p]));lsSet(LS_MAIN,state);lsSet(LS_DAYS,days);markAllDirty();applyRemote();setStatus("Záloha načtena a sloučena s tím, co tu už bylo.");schedulePush()
+  }catch(err){setStatus("Soubor se nepodařilo načíst. Je to záloha z této aplikace?")}};
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){if(dayTimer){clearTimeout(dayTimer);writeDay()}if(dirty.size)sync(false)}
+  else if(dayKey()!==TODAY)location.reload();else sync(false)});
+addEventListener("online",()=>sync(false));
+
+function initStore(){
+  state=norm(lsGet(LS_MAIN,null));days=lsGet(LS_DAYS,{});
+  if(days[TODAY]){today=fixDay(days[TODAY]);days[TODAY]=today}
+  renderAll();renderSync();
+  if(cfg)sync(true);else setStatus("Ukládá se jen v tomto zařízení. Synchronizaci zapneš níže.");
+  if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+
+/* ===== TABS ===== */
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.removeAttribute("aria-current"));b.setAttribute("aria-current","page");
+  ["today","prayers","journal"].forEach(t=>$("tab-"+t).hidden=t!==b.dataset.tab);window.scrollTo(0,0);
+  if(b.dataset.tab==="journal")renderJournal();if(b.dataset.tab==="prayers")renderPrayers();
+}));
+
+/* ===== FIELDS ===== */
+function fq(f){
+  const [k,q,h,single]=f;
+  return `<div class="fq"><label for="f-${k}">${esc(q)}</label>${h&&!single?`<div class="h">${esc(h)}</div>`:""}${single?`<input type="text" id="f-${k}" data-f="${k}" placeholder="${esc(h||"")}" value="${esc(today.f[k]||"")}">`:`<textarea id="f-${k}" data-f="${k}" rows="2">${esc(today.f[k]||"")}</textarea>`}</div>`;
+}
+function fieldGroup(list,tiredN){
+  const tired=today.energy==="tired";
+  if(!tired)return list.map(fq).join("");
+  const rest=list.slice(tiredN),filled=rest.some(f=>(today.f[f[0]]||"").trim());
+  return list.slice(0,tiredN).map(fq).join("")+`<details class="more"${filled?" open":""}><summary>Další otázky, jestli chceš</summary>${rest.map(fq).join("")}</details>`;
+}
+$("tab-today").addEventListener("input",e=>{const f=e.target.dataset.f;if(!f)return;today.f[f]=e.target.value;saveDay()});
+
+/* ===== FOLLOW-UP (včerejší uplatnění) ===== */
+function lastApply(){
+  const keys=Object.keys(days).filter(k=>k<TODAY).sort().reverse();
+  for(const k of keys){const d=days[k];const t=(d.f&&(d.f.b_apply||d.f.w_apply||d.f.s_apply)||"").trim();if(t)return {k,t,d}}
+  return null;
+}
+function renderFollow(){
+  const la=lastApply();
+  const show=la&&!la.d.applyDone&&!today.followSkip;
+  $("followCard").hidden=!show;if(!show)return;
+  const diff=Math.round((fromKey(TODAY)-fromKey(la.k))/864e5);
+  $("followWhen").textContent=(diff===1?"Včera":fmtDay(la.k).replace(/^./,c=>c.toUpperCase()))+" sis předsevzala:";
+  $("followText").textContent=la.t;
+}
+$("followCard").addEventListener("click",e=>{const v=e.target.dataset.follow;if(!v)return;const la=lastApply();if(!la)return;
+  days[la.k].applyDone=v;saveOtherDay(la.k);renderFollow()});
+
+/* ===== BIBLE ===== */
+function nextUnread(){
+  const order=[];if(state.bookPref!=null)order.push(state.bookPref);for(let b=0;b<BOOKS.length;b++)if(b!==state.bookPref)order.push(b);
+  for(const b of order){const r=state.read[b]||[];for(let c=1;c<=BOOKS[b][1];c++)if(!r.includes(c))return {b,c}}
+  return null;
+}
+function readCount(){return Object.values(state.read).reduce((s,a)=>s+a.length,0)}
+$("bookSel").innerHTML=BOOKS.map((b,i)=>`<option value="${i}">${b[0]}</option>`).join("");
+$("changeBook").onclick=()=>{$("bookPick").hidden=!$("bookPick").hidden;const n=nextUnread();if(n)$("bookSel").value=n.b};
+$("bookSel").onchange=()=>{state.bookPref=+$("bookSel").value;writeMain();renderBible()};
+$("readBtn").onclick=()=>{
+  const n=nextUnread();if(!n)return;
+  const r=state.read[n.b]||[];r.push(n.c);state.read[n.b]=r.sort((a,b)=>a-b);
+  if(state.bookPref===n.b&&r.length>=BOOKS[n.b][1])state.bookPref=null;
+  today.readCh.push(BOOKS[n.b][0]+" "+n.c);writeMain();saveDay(true);renderBible();
+};
+function renderBible(){
+  const n=nextUnread(),did=today.readCh.length;
+  $("readLbl").textContent=did?"Další kapitola, jestli chceš":"Dnes na řadě";
+  $("readingNow").textContent=n?`${BOOKS[n.b][0]} ${n.c}`:"Celá Bible přečtená";
+  $("readingHint").textContent=did?`Dnes přečteno: ${today.readCh.join(", ")} ✓`:(today.energy==="tired"?"Klidně jen pár veršů. Počítá se to.":"Čti pomalu, klidně nahlas. Ptej se: kdo, co, kdy, kde, proč? Pomůžou studijní poznámky v JW Library.");
+  $("stBible").classList.toggle("complete",did>0);
+  $("bibleFields").innerHTML=fieldGroup(BIBLE_F,BIBLE_TIRED);
+}
+
+/* ===== PRAYER ===== */
+function renderPray(){
+  const v=VERSES[doy()%VERSES.length];
+  $("prayVerse").textContent=`„${v[0]}“ (podle ${v[1]})`;
+  $("prayFields").innerHTML=fieldGroup(PRAY_F,PRAY_TIRED);
+  const open=state.prayers.filter(p=>p.status==="open");
+  $("prChipsWrap").hidden=!open.length;
+  $("prChips").innerHTML=open.map(p=>`<button data-pr="${p.id}" aria-pressed="${today.prPick.includes(p.id)}">${esc(p.title)}</button>`).join("");
+  $("prayedBtn").setAttribute("aria-pressed",today.prayed?"true":"false");
+  $("prayedBtn").textContent=today.prayed?"Pomodlila jsem se ✓":"Pomodlila jsem se";
+  $("stPray").classList.toggle("complete",today.prayed);
+}
+$("prChips").addEventListener("click",e=>{const b=e.target.closest("[data-pr]");if(!b)return;const id=b.dataset.pr;
+  today.prPick=today.prPick.includes(id)?today.prPick.filter(x=>x!==id):[...today.prPick,id];saveDay();b.setAttribute("aria-pressed",today.prPick.includes(id))});
+$("prayedBtn").onclick=()=>{today.prayed=!today.prayed;saveDay(true);$("prayedBtn").setAttribute("aria-pressed",today.prayed);$("prayedBtn").textContent=today.prayed?"Pomodlila jsem se ✓":"Pomodlila jsem se";$("stPray").classList.toggle("complete",today.prayed)};
+
+/* ===== DAY TOPIC ===== */
+function weekRecap(){
+  const ws=weekStartKey();
+  const wk=Object.values(days).filter(d=>d.date>=ws&&d.date<TODAY).sort((a,b)=>a.date.localeCompare(b.date));
+  const ap=wk.map(d=>({d,t:(d.f&&(d.f.b_apply||d.f.w_apply||d.f.s_apply)||"").trim()})).filter(x=>x.t);
+  const ans=state.prayers.filter(p=>p.status==="answered"&&dayKey(new Date(p.answeredAt))>=ws);
+  return `<div class="recap"><b>Co sis tento týden předsevzala</b>${ap.length?`<ul>${ap.map(x=>`<li>${esc(x.t)} ${x.d.applyDone?`<span class="tag">${FOLLOW_TXT[x.d.applyDone]}</span>`:""}</li>`).join("")}</ul>`:`<p class="soft small" style="margin:6px 0 0">Tento týden zatím nic.</p>`}</div>`+
+    (ans.length?`<div class="recap"><b>Na co Jehova tento týden odpověděl</b><ul>${ans.map(p=>`<li>${esc(p.title)}: ${esc(p.answer)}</li>`).join("")}</ul></div>`:"");
+}
+function renderDay(){
+  const D=DAYS[new Date().getDay()];
+  $("dayTitle").textContent=D.title;$("dayHint").textContent=D.hint;
+  $("dayBody").innerHTML=(D.review?weekRecap():"")+D.fields.map(fq).join("");
+  // volné studium navíc jen ve dny, kdy téma dne není volné studium
+  const isFree=D.fields===FREE.fields;
+  $("extraBody").innerHTML=isFree?"":FREE.fields.map(f=>fq(["x"+f[0],f[1],f[2],f[3]])).join("");
+  $("stExtra").hidden=today.energy!=="extra"||isFree;
+}
+
+/* ===== ENERGY ===== */
+function renderEnergy(){
+  document.querySelectorAll("[data-energy]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.energy===today.energy));
+  $("energyNote").textContent=today.energy?ENERGY_NOTE[today.energy]:"Podle toho ti ukážu, co dnes stačí.";
+  $("stDay").hidden=today.energy==="tired";
+}
+document.querySelectorAll("[data-energy]").forEach(b=>b.onclick=()=>{today.energy=b.dataset.energy;saveDay(true);renderToday()});
+
+/* ===== PRAYERS TAB ===== */
+const dsince=ts=>Math.max(0,Math.floor((Date.now()-ts)/864e5));
+function renderPrayers(){
+  const open=state.prayers.filter(p=>p.status==="open");
+  $("prOpen").innerHTML=open.length?open.map(p=>`<div class="item" data-prid="${p.id}"><h3>${esc(p.title)}</h3>
+    <div class="soft small">Od ${fmtTs(p.created)}, ${dsince(p.created)} ${plural(dsince(p.created),"den","dny","dní")}</div>
+    ${p.notes.length?`<ul class="notes">${p.notes.map(n=>`<li><b>${fmtTs(n.d)}</b>${esc(n.t)}</li>`).join("")}</ul>`:""}
+    <details><summary>Čeho jsem si všimla</summary><p class="soft small" style="margin-top:6px">Dostala jsem sílu? Pomohl mi někdo? Změnila se situace, nebo můj pohled?</p><textarea class="prNote" rows="2"></textarea><div class="row" style="margin-top:6px"><button class="prAddNote">Zapsat</button></div></details>
+    <details><summary>Jehova odpověděl</summary><textarea class="prAns" rows="3" style="margin-top:8px" placeholder="Jak odpověděl…"></textarea><div class="row" style="margin-top:6px"><button class="primary prMark">Uložit odpověď</button><button class="prDel">Smazat prosbu</button></div></details></div>`).join("")
+    :`<p class="empty">Zatím žádné prosby. Přidej první výše.</p>`;
+  const ans=state.prayers.filter(p=>p.status==="answered").sort((a,b)=>b.answeredAt-a.answeredAt);
+  $("prAnswered").innerHTML=ans.length?ans.map(p=>`<div class="item answered" data-prid="${p.id}"><h3>${esc(p.title)}</h3>
+    <div class="soft small">Prosila jsem od ${fmtTs(p.created)}, odpověď ${fmtTs(p.answeredAt)}</div>
+    <p style="font-family:Literata,Georgia,serif;margin:8px 0;white-space:pre-wrap">${esc(p.answer)}</p>
+    <label class="chk"><input type="checkbox" class="prThank" ${p.thanked?"checked":""}> Poděkovala jsem za to v modlitbě</label>
+    <div class="row" style="margin-top:8px"><button class="prReopen">Vrátit mezi prosby</button></div></div>`).join("")
+    :`<p class="empty">Až uvidíš, jak Jehova odpověděl, zapiš to u prosby. Sem se pak budeš moct vracet, když bude těžko.</p>`;
+}
+$("addPr").onclick=()=>{const t=$("newPr").value.trim();if(!t){$("newPr").focus();return}state.prayers.unshift({id:uid(),title:t,created:Date.now(),u:Date.now(),status:"open",notes:[]});$("newPr").value="";writeMain();renderPrayers();renderPray()};
+$("tab-prayers").addEventListener("click",e=>{
+  const it=e.target.closest("[data-prid]");if(!it||e.target.tagName!=="BUTTON")return;
+  const p=state.prayers.find(x=>x.id===it.dataset.prid);if(!p)return;
+  if(e.target.classList.contains("prAddNote")){const t=it.querySelector(".prNote").value.trim();if(!t)return;p.notes.push({d:Date.now(),t})}
+  else if(e.target.classList.contains("prMark")){const t=it.querySelector(".prAns").value.trim();if(!t){it.querySelector(".prAns").focus();return}p.status="answered";p.answer=t;p.answeredAt=Date.now();p.thanked=false}
+  else if(e.target.classList.contains("prDel")){if(!confirm("Smazat prosbu?"))return;state.del[p.id]=Date.now();state.prayers=state.prayers.filter(x=>x.id!==p.id)}
+  else if(e.target.classList.contains("prReopen"))p.status="open";
+  else return;
+  p.u=Date.now();writeMain();renderPrayers();renderPray();
+});
+$("tab-prayers").addEventListener("change",e=>{if(!e.target.classList.contains("prThank"))return;const p=state.prayers.find(x=>x.id===e.target.closest("[data-prid]").dataset.prid);if(p){p.thanked=e.target.checked;p.u=Date.now();writeMain()}});
+
+/* ===== JOURNAL ===== */
+const LBL={pray:"Modlitba",bible:"Z Bible",d1:"Poznámka",d2:"Poznámka",extraWhat:"Četla jsem",extra:"Co mě zaujalo"};
+[...PRAY_F,...BIBLE_F,...FREE.fields].forEach(f=>LBL[f[0]]=f[1]);
+FREE.fields.forEach(f=>LBL["x"+f[0]]=f[1]);
+Object.values(DAYS).forEach(D=>D.fields.forEach(f=>LBL[f[0]]=f[1]));
+const ORDER=Object.keys(LBL);
+function entryRows(d){
+  const rows=[],f=d.f||{};
+  const prs=(d.prPick||[]).map(id=>(state.prayers.find(p=>p.id===id)||{}).title).filter(Boolean);
+  ORDER.forEach(k=>{if((f[k]||"").trim()){rows.push([LBL[k],f[k]]);if(k==="p_others"&&prs.length){rows.push(["Dlouhodobé prosby",prs.join(", ")]);prs.length=0}}});
+  if(prs.length)rows.unshift(["Dlouhodobé prosby",prs.join(", ")]);
+  if(d.readCh&&d.readCh.length)rows.push(["Četla jsem",d.readCh.join(", ")]);
+  if(d.applyDone)rows.push(["Uplatnění",FOLLOW_TXT[d.applyDone]]);
+  return rows;
+}
+function renderJournal(){
+  const mk=TODAY.slice(0,7);
+  const active=Object.values(days).filter(d=>d.prayed||(d.readCh&&d.readCh.length)||Object.values(d.f||{}).some(v=>(v||"").trim()));
+  const m=active.filter(d=>d.date.startsWith(mk)).length;
+  $("monthLine").textContent=m?`Tento měsíc jsi s Jehovou strávila ${m} ${plural(m,"den","dny","dní")}.`:"Tento měsíc začínáš. Každý den se počítá.";
+  const rc=readCount();$("bibleProg").textContent=`Bible: ${rc} z ${TOTAL_CH} kapitol`;$("bibleBar").style.width=(rc/TOTAL_CH*100)+"%";
+  const q=$("search").value.trim().toLowerCase();
+  const list=active.sort((a,b)=>b.date.localeCompare(a.date)).filter(d=>!q||JSON.stringify(entryRows(d)).toLowerCase().includes(q));
+  $("entries").innerHTML=list.length?list.map(d=>{const f=d.f||{};const first=(f.b_apply||f.b_jeh||f.p_thanks||f.bible||f.pray||"").split("\n")[0];
+    return `<details class="entry"><summary><div class="d">${fmtDay(d.date)}${d.prayed?" · modlitba":""}${d.readCh&&d.readCh.length?" · "+esc(d.readCh.join(", ")):""}</div>${first?`<div class="t">${esc(first.slice(0,120))}</div>`:""}</summary>
+      <dl>${entryRows(d).map(r=>`<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join("")}</dl></details>`}).join("")
+    :`<p class="empty">${q?"Nic nenalezeno.":"Tvůj první den se objeví tady."}</p>`;
+}
+$("search").addEventListener("input",renderJournal);
+
+/* ===== RENDER ===== */
+function renderToday(){renderEnergy();renderFollow();renderPray();renderBible();renderDay()}
+function renderAll(){$("dateLine").textContent=fmtDay(TODAY);renderToday();renderPrayers();renderJournal()}
+initStore();
+</script>
+</body>
+</html>
