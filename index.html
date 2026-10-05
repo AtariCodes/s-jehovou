@@ -218,7 +218,7 @@ details *{box-sizing:border-box}
 <details class="sync" id="syncBox">
   <summary>Synchronizace a záloha</summary>
   <p class="soft small" style="margin-top:8px">Zápisky se ukládají do tvého soukromého repozitáře na GitHubu. Na každém zařízení stačí jednou vyplnit repozitář a token.</p>
-  <div class="fq"><label for="syRepo">Repozitář s daty</label><input type="text" id="syRepo" placeholder="uzivatel/s-jehovou-data" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+  <div class="fq"><label for="syRepo">Repozitář s daty</label><input type="text" id="syRepo" placeholder="AtariCodes/s-jehovou-data" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
   <div class="fq"><label for="syToken">Přístupový token</label><input type="password" id="syToken" autocomplete="off" placeholder="github_pat_…"></div>
   <div class="row" style="margin-top:10px"><button class="primary" id="sySave">Uložit a synchronizovat</button><button id="syNow">Synchronizovat teď</button><button id="syOff">Odpojit toto zařízení</button></div>
   <details class="more"><summary>Jak získat token</summary>
@@ -389,7 +389,7 @@ function sync(forcePull){
       setStatus("Synchronizováno v "+new Date().toLocaleTimeString("cs-CZ",{hour:"2-digit",minute:"2-digit"})+". Data jsou v tvém soukromém repozitáři.")
     }catch(e){if(remoteChanged){remoteChanged=false;applyRemote()}setStatus(errText(e))}})}
 function schedulePush(){if(!cfg)return;clearTimeout(pushTimer);pushTimer=setTimeout(()=>sync(false),2500)}
-function renderSync(){$("syRepo").value=cfg?cfg.repo:"";$("syToken").value="";$("syToken").placeholder=cfg?"uložen v tomto zařízení":"github_pat_…";$("syNow").hidden=$("syOff").hidden=!cfg}
+function renderSync(){$("syRepo").value=cfg?cfg.repo:"AtariCodes/s-jehovou-data";$("syToken").value="";$("syToken").placeholder=cfg?"uložen v tomto zařízení":"github_pat_…";$("syNow").hidden=$("syOff").hidden=!cfg}
 $("sySave").onclick=()=>{
   const repo=$("syRepo").value.trim().replace(/^https?:\/\/github\.com\//,"").replace(/\.git$/,"").replace(/\/$/,""),tok=$("syToken").value.trim()||(cfg&&cfg.token)||"";
   if(!/^[\w.-]+\/[\w.-]+$/.test(repo)){setStatus("Repozitář zadej ve tvaru uzivatel/nazev.");$("syRepo").focus();return}
